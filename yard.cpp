@@ -15,7 +15,7 @@ void Node::push(Node *&top, int value) {
   top = temp;
 }
 
-//removes from the top of the array
+//removes the newest value from the array
 bool Node::pop(Node *&top, int value) {
   if (!top) {
     return false;
@@ -32,6 +32,38 @@ int Node::peek(Node* &top, int value) {
   if (!top) {
     return false;
   }
-  //value = top->data;
   return value;
+}
+
+//adds value to the back of the array
+//help from copilot
+void Node::enqueue(Node *&front, Node *back, int value) {
+  Node *temp = new Node(value);
+  temp->data = value;
+  temp->next = nullptr;
+  cout << "1" << endl;
+  if (!front) {
+    front = temp;
+    back = temp;
+  }
+  else {
+    back->next = temp;
+    back = temp;
+  }
+  cout << "2" << endl;
+}
+
+//removes oldest value from the array
+bool Node::dequeue(Node *&front, Node *back, int value) {
+  if (!front) {
+    return false;
+  }
+  Node *temp = front;
+  value = front->data;
+  front = front->next;
+  delete temp;
+  if (!front) {
+    back = nullptr;
+  }
+  return true;
 }
