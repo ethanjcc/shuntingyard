@@ -4,7 +4,8 @@
 using namespace std;
 
 Node::Node(int value){
-
+  data = value;
+  next = nullptr;
 }
 
 //adds to the top of the array
@@ -16,7 +17,7 @@ void Node::push(Node *&top, int value) {
 }
 
 //removes the newest value from the array
-bool Node::pop(Node *&top, int value) {
+bool Node::pop(Node *&top, int &value) {
   if (!top) {
     return false;
   }
@@ -31,17 +32,18 @@ bool Node::pop(Node *&top, int value) {
 int Node::peek(Node* &top, int value) {
   if (!top) {
     return false;
+    value = top->data;
+    return true;
   }
-  return value;
+  return false;
 }
 
 //adds value to the back of the array
 //help from copilot
-void Node::enqueue(Node *&front, Node *back, int value) {
+void Node::enqueue(Node *&front, Node *&back, int value) {
   Node *temp = new Node(value);
-  temp->data = value;
-  temp->next = nullptr;
-  cout << "1" << endl;
+  //temp->data = value;
+  //temp->next = nullptr;
   if (!front) {
     front = temp;
     back = temp;
@@ -50,11 +52,10 @@ void Node::enqueue(Node *&front, Node *back, int value) {
     back->next = temp;
     back = temp;
   }
-  cout << "2" << endl;
 }
 
 //removes oldest value from the array
-bool Node::dequeue(Node *&front, Node *back, int value) {
+bool Node::dequeue(Node *&front, Node *&back, int &value) {
   if (!front) {
     return false;
   }
