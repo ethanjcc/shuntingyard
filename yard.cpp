@@ -3,13 +3,13 @@
 
 using namespace std;
 
-Node::Node(int value){
+Node::Node(char value){
   data = value;
   next = nullptr;
 }
 
 //adds to the top of the array
-void Node::push(Node *&top, int value) {
+void Node::push(Node *&top, char value) {
   Node *temp = new Node(value);
   temp->data = value;
   temp->next = top;
@@ -17,7 +17,7 @@ void Node::push(Node *&top, int value) {
 }
 
 //removes the newest value from the array
-bool Node::pop(Node *&top, int &value) {
+bool Node::pop(Node *&top, char &value) {
   if (!top) {
     return false;
   }
@@ -29,18 +29,17 @@ bool Node::pop(Node *&top, int &value) {
 }
 
 //looks at the top of the array without changing it
-int Node::peek(Node* &top, int value) {
+int Node::peek(Node* &top, char value) {
   if (!top) {
     return false;
     value = top->data;
     return true;
   }
-  return false;
 }
 
 //adds value to the back of the array
 //help from copilot
-void Node::enqueue(Node *&front, Node *&back, int value) {
+void Node::enqueue(Node *&front, Node *&back, char value) {
   Node *temp = new Node(value);
   //temp->data = value;
   //temp->next = nullptr;
@@ -55,7 +54,7 @@ void Node::enqueue(Node *&front, Node *&back, int value) {
 }
 
 //removes oldest value from the array
-bool Node::dequeue(Node *&front, Node *&back, int &value) {
+bool Node::dequeue(Node *&front, Node *&back, char &value) {
   if (!front) {
     return false;
   }
@@ -67,4 +66,25 @@ bool Node::dequeue(Node *&front, Node *&back, int &value) {
     back = nullptr;
   }
   return true;
+}
+
+bool isOperator(char c) {
+  return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
+}
+
+int precedence(char op) {
+  if (op == '^') {
+    return 3;
+  }
+  if (op == '*' || op == '/') {
+    return 2;
+  }
+  if (op == '+' || op == '-') {
+    return 1;
+  }
+  return 0;
+}
+
+bool rtAssociative(char op) {
+  return op == '^';
 }

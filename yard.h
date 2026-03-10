@@ -1,11 +1,14 @@
 struct Node {
  public:
-  int data;
+  char data;
   Node *next;
-  Node(int value);
-  void push(Node *&top, int value);
-  bool pop(Node *&top, int &value);
-  int peek(Node *&top, int value);
-  void enqueue(Node *&front, Node *&back, int value);
-  bool dequeue(Node *&front, Node *&back, int &value);
+  Node(char value);
+  void push(Node *&top, char value);
+  bool pop(Node *&top, char &value);
+  int peek(Node *&top, char value);
+  void enqueue(Node *&front, Node *&back, char value);
+  bool dequeue(Node *&front, Node *&back, char &value);
+  bool isOperator(char c);
+  int precedence(char op);
+  bool rtAssociative(char op);
 };

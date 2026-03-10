@@ -1,32 +1,50 @@
 #include "yard.h"
 #include <iostream>
 #include <cstring>
+#include <cctype>
 
 using namespace std;
 
 int main() {
   Node* top = nullptr;
+  Node *front = nullptr;
+  Node *back = nullptr;
   char input[50];
   cout << "enter expression" << endl;
-  char.getline(input, 50);
-  for (int i = 0; i < strlen(expr); i++){
+  cin.getline(input, 50);
+  for (int i = 0; i < strlen(input); i++){
     char c = input[i];
-    if (c == " ") {
+    if (c == ' ') {
       continue;
     }
     else if (isdigit(c)) {
-      //enqueue
+      front->enqueue(front, back, c - '0');
     }
-    else if (c == "+" || c == "-" || c == "*" || c == "/" || c == "^") {
-      //precidence
+    else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
+      while (top != nullptr && front->isOperator(top->data)) {
+	char topOp = top->data;
+	bool higher = front->precedence(topOp) > front->precedence(c);
+	bool left = front->precedence(topOp) == front->precedence(c) && !front->rtAssociative(c);
+	if (higher || left) {
+	  char popped;
+	  top->pop(top, popped);
+	  front->enqueue(front, back, popped);
+	}
+	else {
+	  break;
+	}
+      }
+      top->push(top, c);
     }
-    else if (c == "(") {
-      //push
+    else if (c == '(') {
+      top->push(top, c);
     }
-    else if (c == ")") {
+    else if (c == ')') {
       //pop until it meets a "("
     }
   }
+}
+  /*
   if (strcmp(input, "STACK") == 0){
     top->push(top, 10);
     top->push(top, 20);
@@ -44,8 +62,6 @@ int main() {
     return 0;
   }
   else if (strcmp(input, "QUEUE") == 0) {
-    Node *front = nullptr;
-    Node *back = nullptr;
     front->enqueue(front, back, 10);
     front->enqueue(front, back, 20);
     front->enqueue(front, back, 30);
@@ -62,3 +78,4 @@ int main() {
     return 0;
   }
 }
+  */
