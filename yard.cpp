@@ -9,15 +9,16 @@ Node::Node(char value){
 }
 
 //adds to the top of the array
-void Node::push(Node *&top, char value) {
+void push(Node *&top, char value) {
   Node *temp = new Node(value);
   temp->data = value;
   temp->next = top;
   top = temp;
+  cout << "in push" << endl;
 }
 
 //removes the newest value from the array
-bool Node::pop(Node *&top, char &value) {
+bool pop(Node *&top, char &value) {
   if (!top) {
     return false;
   }
@@ -29,17 +30,18 @@ bool Node::pop(Node *&top, char &value) {
 }
 
 //looks at the top of the array without changing it
-int Node::peek(Node* &top, char value) {
-  if (!top) {
-    return false;
+char peek(Node* &top, char value) {
+  if (top != nullptr) {
     value = top->data;
-    return true;
+    cout << value << endl;
+    return value;
   }
+  return ' ';
 }
 
 //adds value to the back of the array
 //help from copilot
-void Node::enqueue(Node *&front, Node *&back, char value) {
+void enqueue(Node *&front, Node *&back, char value) {
   Node *temp = new Node(value);
   //temp->data = value;
   //temp->next = nullptr;
@@ -54,7 +56,7 @@ void Node::enqueue(Node *&front, Node *&back, char value) {
 }
 
 //removes oldest value from the array
-bool Node::dequeue(Node *&front, Node *&back, char &value) {
+bool dequeue(Node *&front, Node *&back, char &value) {
   if (!front) {
     return false;
   }
@@ -74,14 +76,18 @@ bool isOperator(char c) {
 
 int precedence(char op) {
   if (op == '^') {
+    cout << "^" << endl;
     return 3;
   }
   if (op == '*' || op == '/') {
+    cout << "* or /" << endl;
     return 2;
   }
   if (op == '+' || op == '-') {
+    cout << "+ or -" << endl;
     return 1;
   }
+  cout << "hey" << endl;
   return 0;
 }
 

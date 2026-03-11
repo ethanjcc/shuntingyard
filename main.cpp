@@ -14,35 +14,58 @@ int main() {
   cin.getline(input, 50);
   for (int i = 0; i < strlen(input); i++){
     char c = input[i];
+    cout << c << endl;
     if (c == ' ') {
       continue;
     }
     else if (isdigit(c)) {
-      front->enqueue(front, back, c - '0');
+      enqueue(front, back, c);
     }
     else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
-      while (top != nullptr && front->isOperator(top->data)) {
+      cout << "in while" << endl;
+      //cout << top << endl;
+      //cout << top->data << endl;
+      while (top != nullptr && isOperator(top->data)) {
 	char topOp = top->data;
-	bool higher = front->precedence(topOp) > front->precedence(c);
-	bool left = front->precedence(topOp) == front->precedence(c) && !front->rtAssociative(c);
+	bool higher = precedence(topOp) > precedence(c);
+	bool left = precedence(topOp) == precedence(c) && !rtAssociative(c);
+	cout << higher << endl;
+	cout << left << endl;
 	if (higher || left) {
 	  char popped;
-	  top->pop(top, popped);
-	  front->enqueue(front, back, popped);
+	  pop(top, popped);
+	  cout << "in pop" << popped << endl;
+	  enqueue(front, back, popped);
 	}
 	else {
 	  break;
 	}
       }
-      top->push(top, c);
+      push(top, c);
+      cout << top->data << endl;
+      cout << peek(top, c) << endl;
+      
     }
     else if (c == '(') {
-      top->push(top, c);
+      push(top, c);
+      
+      cout << peek(top, c) << endl;
     }
     else if (c == ')') {
       //pop until it meets a "("
     }
   }
+  char c = ' ';
+  while (peek(top, c) != ' ') {
+    char c;
+    pop(top, c);
+    enqueue(front, back, c);
+  }
+  cout << peek(top, c) << endl;
+  while (dequeue(front, back, c) != 0) {
+    cout << "its c " << c << endl;
+  }
+  
 }
   /*
   if (strcmp(input, "STACK") == 0){
