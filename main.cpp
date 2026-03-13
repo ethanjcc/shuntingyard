@@ -14,7 +14,7 @@ int main() {
   cin.getline(input, 50);
   for (int i = 0; i < strlen(input); i++){
     char c = input[i];
-    cout << c << endl;
+    //cout << c << endl;
     if (c == ' ') {
       continue;
     }
@@ -22,19 +22,19 @@ int main() {
       enqueue(front, back, c);
     }
     else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
-      cout << "in while" << endl;
+      //cout << "in while" << endl;
       //cout << top << endl;
       //cout << top->data << endl;
       while (top != nullptr && isOperator(top->data)) {
 	char topOp = top->data;
 	bool higher = precedence(topOp) > precedence(c);
 	bool left = precedence(topOp) == precedence(c) && !rtAssociative(c);
-	cout << higher << endl;
-	cout << left << endl;
+	//cout << higher << endl;
+	//cout << left << endl;
 	if (higher || left) {
 	  char popped;
 	  pop(top, popped);
-	  cout << "in pop" << popped << endl;
+	  //cout << "in pop" << popped << endl;
 	  enqueue(front, back, popped);
 	}
 	else {
@@ -42,17 +42,25 @@ int main() {
 	}
       }
       push(top, c);
-      cout << top->data << endl;
-      cout << peek(top, c) << endl;
+      //cout << top->data << endl;
+      //cout << peek(top, c) << endl;
       
     }
     else if (c == '(') {
       push(top, c);
       
-      cout << peek(top, c) << endl;
+      //cout << peek(top, c) << endl;
     }
     else if (c == ')') {
       //pop until it meets a "("
+      char popped;
+      while (top != nullptr && top->data != '(') {
+	pop(top, popped);
+	enqueue(front, back, popped);
+      }
+      if (top != nullptr && top->data == '(') {
+	pop(top, popped);
+      }
     }
   }
   char c = ' ';
@@ -63,9 +71,25 @@ int main() {
   }
   cout << peek(top, c) << endl;
   while (dequeue(front, back, c) != 0) {
-    cout << "its c " << c << endl;
+    cout << c << endl;
   }
-  
+
+  while (dequeue(front, back, c) != 0) {
+    char uInput[50];
+    TreeNode* root = nullptr;
+    int depth = 0;
+    cout << "prefix, infix, or postfix" << endl;
+    cin >> uInput;
+    if (uInput == "prefix") {
+
+    }
+    else if (uInput == "infix") {
+
+    }
+    else if (uInput == "postfix") {
+      printTree(root, depth);
+    }
+  }
 }
   /*
   if (strcmp(input, "STACK") == 0){
