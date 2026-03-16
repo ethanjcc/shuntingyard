@@ -8,6 +8,13 @@ Node::Node(char value){
   next = nullptr;
 }
 
+TreeNode::TreeNode(char treevalue) {
+  treedata = treevalue;
+  left = nullptr;
+  right = nullptr;
+  treenext = nullptr;
+}
+
 //adds to the top of the array
 void push(Node *&top, char value) {
   Node *temp = new Node(value);
@@ -56,7 +63,7 @@ void enqueue(Node *&front, Node *&back, char value) {
 }
 
 //removes oldest value from the array
-bool dequeue(Node *&front, Node *&back, char &value) {
+int dequeue(Node *&front, Node *&back, char &value) {
   if (!front) {
     return false;
   }
@@ -105,55 +112,98 @@ void printTree(TreeNode* root, int depth) {
   for (int a = 0; a < depth; a++) {
     cout << '\t';
   }
-  cout << root->data << endl;
+  cout << root->treedata << endl;
   if (root->left != nullptr) {
     printTree(root->left, depth + 1);
   }
 }
-void treeBuilder(TreeNode* right, TreeNode* left, Node* front, Node* back){
+TreeNode* treeBuilder(TreeNode* right, TreeNode* left, Node* front, Node* back){
   TreeNode* treeStack = nullptr;
   char t = ' ';
   while (dequeue(front, back, t)) {
     if (isdigit(t)) {
-      push(treeStack, new TreeNode(t));
+      treePush(treeStack, t);
     }
     else if (isOperator(t)) {
-      TreeNode* right = treePop(treeStack);
-      TreeNode* left = treePop(treeStack);
       TreeNode* op = new TreeNode(t);
+      TreeNode* right = treePop(treeStack, t);
+      TreeNode* left = treePop(treeStack, t);
       op->left = left;
       op->right = right;
-      push(treeStack, op);
+      treePush2(treeStack, op);
     }
   }
-  TreeNode* root = pop(treeStack);
+  return treePop(treeStack, t);
 }
 
-//adds to the top of the array
-void treePush(TreeNode *&top, char treevalue) {
-  TreeNode *temp = new Node(treevalue);
-  temp->data = treevalue;
-  temp->next = treetop;
+//adds to the top of the array (for tree builder)
+void treePush(TreeNode *&treetop, char treevalue) {
+  TreeNode *temp = new TreeNode(treevalue);
+  temp->treedata = treevalue;
+  temp->treenext = treetop;
   treetop = temp;
 }
 
-//removes the newest value from the array
-bool treePop(TreeNode *&top, char &treevalue) {
-  if (!treetop) {
-    return false;
-  }
-  TreeNode *temp = treetop;
-  treevalue = treetop->data;
-  treetop = treetop->next;
-  delete temp;
-  return true;
+void treePush2(TreeNode *&top, TreeNode* &node){
+  node->treenext = top;
+  top = node;
 }
 
-//looks at the top of the array without changing it
-char treePeek(TreeNode* &top, char treevalue) {
+//removes the newest value from the array (for tree builder)
+TreeNode* treePop(TreeNode *&treetop, char &treevalue) {
+  if (!treetop) {
+    return nullptr;
+  }
+  TreeNode *temp = treetop;
+  treevalue = treetop->treedata;
+  treetop = treetop->treenext;
+  return temp;
+}
+
+//looks at the top of the array without changing it (for tree builder)
+char treePeek(TreeNode* &treetop, char treevalue) {
   if (treetop != nullptr) {
-    treevalue = treetop->data;
+    treevalue = treetop->treedata;
     return treevalue;
   }
   return ' ';
+}
+
+void prefix(TreeNode* root) {
+  if (root == nullptr){
+    return;
+  }
+  cout << root->treedata << ' ';
+  if (root->left != nullptr) {
+    prefix(root->left);
+  }
+  if (root->right != nullptr) { 
+    prefix(root->right);
+  }
+}
+
+void infix(TreeNode* root) {
+  if (left == nullptr) {
+    return;
+  }
+  if (root->left != nullptr) {
+    infix(root->left);
+  }
+  cout << root->treedata << ' ';
+  if (root->right != nullptr) {
+    infix(root->right);
+  }
+}
+
+void postfix(TreeNode* root) {
+  if (root == nullptr) {
+    return;
+  }
+  if (root->left != nullptr) {
+    postfix(root->left);
+  }
+  if (root->right != nullptr) {
+    postfix(root->right);
+  }
+  cout << root->treedata << endl;
 }
