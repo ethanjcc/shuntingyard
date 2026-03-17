@@ -21,7 +21,6 @@ void push(Node *&top, char value) {
   temp->data = value;
   temp->next = top;
   top = temp;
-  //cout << "in push" << endl;
 }
 
 //removes the newest value from the array
@@ -77,10 +76,13 @@ int dequeue(Node *&front, Node *&back, char &value) {
   return true;
 }
 
+//definition for operators
 bool isOperator(char c) {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
 }
 
+//definition for using precidence
+//help from copilot
 int precedence(char op) {
   if (op == '^') {
     cout << "^" << endl;
@@ -98,10 +100,12 @@ int precedence(char op) {
   return 0;
 }
 
+//the only rt associative is ^
 bool rtAssociative(char op) {
   return op == '^';
 }
 
+//actually prints the tree
 void printTree(TreeNode* root, int depth) {
   if (root == nullptr) {
     return;
@@ -117,6 +121,9 @@ void printTree(TreeNode* root, int depth) {
     printTree(root->left, depth + 1);
   }
 }
+
+//definition for building tree
+//help from copilot
 TreeNode* treeBuilder(TreeNode* right, TreeNode* left, Node* front, Node* back){
   TreeNode* treeStack = nullptr;
   char t = ' ';
@@ -144,6 +151,7 @@ void treePush(TreeNode *&treetop, char treevalue) {
   treetop = temp;
 }
 
+//special push for the tree
 void treePush2(TreeNode *&top, TreeNode* &node){
   node->treenext = top;
   top = node;
@@ -169,6 +177,7 @@ char treePeek(TreeNode* &treetop, char treevalue) {
   return ' ';
 }
 
+// root -> left -> right
 void prefix(TreeNode* root) {
   if (root == nullptr){
     return;
@@ -182,8 +191,9 @@ void prefix(TreeNode* root) {
   }
 }
 
+// left -> root -> right
 void infix(TreeNode* root) {
-  if (left == nullptr) {
+  if (root == nullptr) {
     return;
   }
   if (root->left != nullptr) {
@@ -195,6 +205,7 @@ void infix(TreeNode* root) {
   }
 }
 
+// left -> right -> root
 void postfix(TreeNode* root) {
   if (root == nullptr) {
     return;
@@ -205,5 +216,5 @@ void postfix(TreeNode* root) {
   if (root->right != nullptr) {
     postfix(root->right);
   }
-  cout << root->treedata << endl;
+  cout << root->treedata << ' ';
 }

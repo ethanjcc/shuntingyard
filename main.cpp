@@ -10,6 +10,7 @@ int main() {
   Node *front = nullptr;
   Node *back = nullptr;
   char input[50];
+  //get expression from user input
   cout << "enter expression" << endl;
   cin.getline(input, 50);
   for (int i = 0; i < strlen(input); i++){
@@ -17,9 +18,11 @@ int main() {
     if (c == ' ') {
       continue;
     }
+    //if its a digit put it in the back
     else if (isdigit(c)) {
       enqueue(front, back, c);
     }
+    //if it is one of these operators use precidence to pop the top then put into the queue
     else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
       while (top != nullptr && isOperator(top->data)) {
 	char topOp = top->data;
@@ -37,6 +40,7 @@ int main() {
       push(top, c);
       
     }
+    //push if it sees a (
     else if (c == '(') {
       push(top, c);
     }
@@ -60,11 +64,13 @@ int main() {
   }
   cout << peek(top, c) << endl;
   cout << c << endl;
+  //build the tree from given expression
   TreeNode* root = treeBuilder(nullptr, nullptr, front, back);
     while (dequeue(front, back, c) != 0) {
       char uInput[50] = " ";
       int depth = 0;
       printTree(root, depth);
+      //user input for either prefix infix or postfix
       cout << "prefix, infix, or postfix" << endl;
       cin >> uInput;
       if (strcmp(uInput, "prefix") == 0) {
@@ -78,38 +84,3 @@ int main() {
       }
     }
 }
-  /*
-  if (strcmp(input, "STACK") == 0){
-    top->push(top, 10);
-    top->push(top, 20);
-    top->push(top, 30);
-    int x;
-    if (top->peek(top, x)) {
-      cout << "top of stack: " << x << endl;
-    }
-    while (top->pop(top, x)) {
-      cout << "popped: " << x << endl;
-    }
-    if (!top->pop(top, x)) {
-      cout << "stack is empty" << endl;
-    }
-    return 0;
-  }
-  else if (strcmp(input, "QUEUE") == 0) {
-    front->enqueue(front, back, 10);
-    front->enqueue(front, back, 20);
-    front->enqueue(front, back, 30);
-    int x;
-    if (top->peek(top, x)) {
-      cout << "front of queue: " << x << endl;
-    }
-    while (front->dequeue(front, back, x)) {
-      cout << "dequeued: " << x << endl;
-    }
-    if (!front->dequeue(front, back, x)) {
-      cout << "queue is empty" << endl;
-    }
-    return 0;
-  }
-}
-  */
