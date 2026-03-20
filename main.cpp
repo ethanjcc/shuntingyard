@@ -13,6 +13,7 @@ int main() {
   //get expression from user input
   cout << "enter expression" << endl;
   cin.getline(input, 50);
+  push(top, '(');
   for (int i = 0; i < strlen(input); i++){
     char c = input[i];
     if (c == ' ') {
@@ -49,24 +50,31 @@ int main() {
       char popped;
       while (top != nullptr && top->data != '(') {
 	pop(top, popped);
-	enqueue(front, back, popped);
+	if (popped != '(') {
+	  enqueue(front, back, popped);
+        }
       }
       if (top != nullptr && top->data == '(') {
 	pop(top, popped);
       }
     }
   }
-  char c = ' ';
-  while (peek(top, c) != ' ') {
-    char c;
-    pop(top, c);
-    enqueue(front, back, c);
+
+  char popped;
+  while (top != nullptr && top->data != '(') {
+    pop(top, popped);
+    enqueue(front, back, popped);
   }
+  cout << top->data << endl;
+  if (top != nullptr && top->data == '(') {
+    pop(top, popped);
+  }
+  char c = ' ';
   cout << peek(top, c) << endl;
   cout << c << endl;
   //build the tree from given expression
   TreeNode* root = treeBuilder(nullptr, nullptr, front, back);
-    while (dequeue(front, back, c) != 0) {
+  //while (dequeue(front, back, c) != 0) {
       char uInput[50] = " ";
       int depth = 0;
       printTree(root, depth);
@@ -82,5 +90,5 @@ int main() {
       else if (strcmp(uInput, "postfix") == 0) {
 	postfix(root);
       }
-    }
+      //}
 }
